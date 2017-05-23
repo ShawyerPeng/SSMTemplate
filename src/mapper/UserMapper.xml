@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="mapper.UserMapper">
+    <resultMap type="po.User" id="userMap">
+        <id property="id" column="id" />
+        <result property="username" column="username" />
+        <result property="password" column="password" />
+    </resultMap>
+
+    <!--<parameterMap id="insertUserMap" type="po.User">-->
+        <!--<parameter property="id" jdbcType="int" javaType="int"/>-->
+        <!--<parameter property="username" jdbcType="varchar" javaType="string" />-->
+        <!--<parameter property="password" jdbcType="varchar" javaType="string"/>-->
+    <!--</parameterMap>-->
+
+    <!-- 此处select标签的id值对应Mapper类中方法名 -->
+    <select id="getUserByName" parameterType="string" resultMap="userMap">
+        <!-- 此处写sql语句,#{Mapper类传入的参数} -->
+        select * from T_USER where username = #{username}
+    </select>
+
+    <select id="getUserById" parameterType="int" resultMap="userMap">
+        SELECT * FROM user WHERE id = #{id}
+    </select>
+
+    <!--<insert id="insert" parameterMap="insertUserMap" keyProperty="int">-->
+        <!--insert into USER values (#{id},#{username},#{password});-->
+    <!--</insert>-->
+
+    <insert id="insert" parameterType="po.User" useGeneratedKeys="true" keyProperty="id"    >
+        insert into user (id, username, password)
+        values (#{id,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR})
+    </insert>
+</mapper>
